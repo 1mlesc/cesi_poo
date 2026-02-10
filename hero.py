@@ -55,6 +55,9 @@ class Hero(Character):
       # Si "Passer", ne rien faire
       elif action == "Passer":
         print(f"{self.name} décide de passer son tour.")
+      elif action == "Quitter":
+        print("Merci d'avoir joué ! À bientôt !")
+        exit()
     
     #Initialisation du héro avec les attributs de base
     def __init__(self, name, damage, type, _health=100, nb_sorts= 2):
