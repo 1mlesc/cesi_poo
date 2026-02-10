@@ -1,7 +1,8 @@
+from abc import ABC
 import random
 from character import Character
 
-class Enemy(Character):
+class Enemy(Character, ABC):
     #Fonction faire un tour pour l'ennemi
     def perform_turn(self, heros):
       if not self.is_alive():
@@ -17,9 +18,18 @@ class Enemy(Character):
         else:
           attack_name, (attack_type, attack_damage) = random.choice(list(self.attack.items()))
           self.do_attack(cible, attack_name, attack_damage, attack_type)
+          
     #Initialisation de l'ennemi avec les attributs de base
     def __init__(self, name, damage, type, _health=100 , nb_sorts= 2):
       super().__init__(name, _health)
       self.damage = damage
       self.type = type
       self.nb_sorts = nb_sorts
+    
+    #Ajouter un observateur
+    def add_observer(self, observer):
+      super().add_observer(observer)
+
+    #Enlever un observateur
+    def remove_observer(self, observer):
+      super().remove_observer(observer)
