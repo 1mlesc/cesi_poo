@@ -3,7 +3,8 @@ from factory import Factory
 # Liste des personnages pour sélection
 heros = Factory.create_hero_team()
 enemies = Factory.create_enemy_team()
-all_characters = heros + enemies
+boss = Factory.create_boss()
+all_characters = heros + enemies + [boss]
 
 print("Bienvenue dans le jeu de combat !")
 print("Vos personnages : ")
@@ -12,6 +13,8 @@ for hero in heros:
 print("\nVotre adversaire : ")
 for enemy in enemies:
   enemy.show_status()
+print('\nLe Boss : ')
+boss.show_status()
 
 #Boucle de jeu qui continue tant que les héros et les ennemis sont vivants
 tour = 1
@@ -22,6 +25,8 @@ while (any(h.is_alive() for h in heros)) and any(e.is_alive() for e in enemies):
     hero.perform_turn(all_characters)
   for enemy in enemies:
     enemy.perform_turn(heros)
+  if boss.is_alive():
+    boss.perform_turn(heros)
   tour += 1
 
 #Message de fin de jeu lorsque qu'une équipe est complètement vaincue
