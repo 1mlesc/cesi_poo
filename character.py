@@ -5,6 +5,7 @@ class Character(Observable):
     def __init__(self, name, _health=100):
       super().__init__()
       self.name = name
+      self.speed = random.randint(0, 10)
       self._health = _health
       self.max_health = _health
 

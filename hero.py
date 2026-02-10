@@ -10,7 +10,7 @@ class Hero(Character):
         return
       action = questionary.select(
         f"Que doit faire {self.name} ?",
-        choices=["Attaquer", "Utiliser un sort", "Passer"] if hasattr(self, 'sorts') else ["Attaquer", "Passer"]
+        choices=["Attaquer", "Utiliser un sort", "Passer", "Quitter"] if hasattr(self, 'sorts') else ["Attaquer", "Passer", "Quitter"]
       ).ask()
       #Si l'action est Attaquer, demander la cible parmi les ennemis vivants
       if action == "Attaquer":
@@ -26,7 +26,7 @@ class Hero(Character):
           choices=[c.name for c in possibles if isinstance(c, Enemy)]
         ).ask()
         cible = next(c for c in possibles if c.name == cible_nom)
-        self.do_attack(cible, attack_choice, self.attack[attack_choice][1], self.attack[attack_choice][0])
+        self.do_attack(cible, attack_choice, self.attack[attack_choice][1], self.attack[attack_choice][0][0])
       #Si l'action est Utiliser un sort, demander le sort à utiliser puis la cible parmi les personnages vivants
       elif action == "Utiliser un sort" and hasattr(self, 'sorts'):
         #Liste des sorts
@@ -54,7 +54,7 @@ class Hero(Character):
         self.spell(cible, sort_choice, self.sorts[sort_choice][1], self.sorts[sort_choice])
       # Si "Passer", ne rien faire
       elif action == "Passer":
-        self.notify('skip')
+        print(f"{self.name} décide de passer son tour.")
     
     #Initialisation du héro avec les attributs de base
     def __init__(self, name, damage, type, _health=100, nb_sorts= 2):

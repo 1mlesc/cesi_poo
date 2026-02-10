@@ -21,7 +21,7 @@ class Observer:
       elif event == 'dead':
         print(f"{subject.name} est mort !")
       elif event == 'status':
-        print(f"{subject.name} - Vie: {'❤️' * (subject._health // 10)} ({subject._health}/{subject.max_health}) | Sorts restants: {subject.nb_sorts}")
+        print(f"{subject.name} - Vie: {'❤️' * (subject._health // 10)} ({subject._health}/{subject.max_health}) | Sorts restants: {subject.nb_sorts} | Vitesse: {subject.speed}")
       elif event == 'skip':
         print(f"{subject.name} décide de passer son tour.")
 
