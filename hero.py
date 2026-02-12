@@ -10,7 +10,7 @@ class Hero(Character):
         return
       action = questionary.select(
         f"Que doit faire {self.name} ?",
-        choices=["Attaquer", "Utiliser un sort", "Passer", "Quitter"] if hasattr(self, 'sorts') else ["Attaquer", "Passer", "Quitter"]
+        choices=["Attaquer", "Utiliser un sort", "Passer", "Quitter"] if hasattr(self, 'spells') else ["Attaquer", "Passer", "Quitter"]
       ).ask()
       #Si l'action est Attaquer, demander la cible parmi les ennemis vivants
       if action == "Attaquer":
@@ -26,17 +26,19 @@ class Hero(Character):
           choices=[c.name for c in possibles if isinstance(c, Enemy)]
         ).ask()
         cible = next(c for c in possibles if c.name == cible_nom)
-        self.do_attack(cible, attack_choice, self.attack[attack_choice][1], self.attack[attack_choice][0][0])
+        print(f"Attaque choisie : {self.attack[attack_choice][0]}")
+        self.do_attack(cible, self.attack[attack_choice][0], self.attack[attack_choice][1])
       #Si l'action est Utiliser un sort, demander le sort à utiliser puis la cible parmi les personnages vivants
-      elif action == "Utiliser un sort" and hasattr(self, 'sorts'):
+      elif action == "Utiliser un sort" and hasattr(self, 'spells'):
         #Liste des sorts
         sort_choice = questionary.select(
           "Quel sort voulez-vous utiliser ?",
-          choices=list(self.sorts.keys())
+          choices=[spell.name for spell in self.spells]
         ).ask()
+        sort_choice = next(spell for spell in self.spells if spell.name == sort_choice)
         possibles = [character for character in all_characters if character.is_alive()]
         #Sort type heal
-        if self.sorts[sort_choice][0] == 'heal':
+        if sort_choice.type == 'heal':
           temp_possibles = []
           for character in possibles:
             if isinstance(character, Hero):
@@ -51,20 +53,19 @@ class Hero(Character):
           choices=[c.name for c in possibles]
         ).ask()
         cible = next(c for c in possibles if c.name == cible_nom)
-        self.spell(cible, sort_choice, self.sorts[sort_choice][1], self.sorts[sort_choice])
+        self.spell(cible, sort_choice)
       # Si "Passer", ne rien faire
       elif action == "Passer":
-        print(f"{self.name} décide de passer son tour.")
+        self.notify('skip')
       elif action == "Quitter":
         print("Merci d'avoir joué ! À bientôt !")
         exit()
-    
     #Initialisation du héro avec les attributs de base
-    def __init__(self, name, damage, type, _health=100, nb_sorts= 2):
+    def __init__(self, name, damage, type, _health=100, mana= 2):
       super().__init__(name, _health)
       self.damage = damage
       self.type = type
-      self.nb_sorts = nb_sorts
+      self.mana = mana
   
     #Ajouter un observateur
     def add_observer(self, observer):

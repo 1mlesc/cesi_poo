@@ -2,8 +2,8 @@ import random
 from hero import Hero
 
 class Warrior(Hero):
-  def __init__(self, name, damage, type, _health=100, nb_sorts=0):
-    super().__init__(name, damage, type, _health, nb_sorts)
+  def __init__(self, name, damage, type, _health=100, mana=0):
+    super().__init__(name, damage, type, _health, mana)
     self.attack = {
       "Coup puissant": ['attack', random.randint(18, 30)],
       "Frappe rapide": ['attack', random.randint(12, 22)],

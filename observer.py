@@ -1,7 +1,7 @@
 class Observer:
-    def update(self, subject, event, chance=None):
+    def update(self, subject, event, attacker=None, chance=None):
       if event == 'take_damage':
-        print(f"{subject.name} a été attaqué et a maintenant {subject._health} points de vie.")
+        print(f"{subject.name} a été attaqué et a maintenant {subject._health} points de vie. Attaqué par : {attacker.name}")
       elif event == 'heal':
         print(f"{subject.name} a été soigné et a maintenant {subject._health} points de vie.")
       elif event == 'perform_turn':
@@ -15,15 +15,17 @@ class Observer:
       elif event == 'miss':
         print(f"{subject.name} rate son action. (Chance de réussite : {chance}%)")
       elif event == 'number_spells':
-        print(f"{subject.name} a maintenant {subject.nb_sorts} sorts restants.")
+        print(f"{subject.name} a maintenant {subject.mana} mana restants.")
       elif event == 'no_spells':
-        print(f"{subject.name} n'a plus de sorts disponibles !")
+        print(f"{subject.name} n'a plus de mana disponibles !")
       elif event == 'dead':
         print(f"{subject.name} est mort !")
       elif event == 'status':
-        print(f"{subject.name} - Vie: {'❤️' * (subject._health // 10)} ({subject._health}/{subject.max_health}) | Sorts restants: {subject.nb_sorts} | Vitesse: {subject.speed}")
+        print(f"{subject.name} - Vie: {'❤️' * (subject._health // 10)} ({subject._health}/{subject.max_health}) | Mana restant: {subject.mana} | Vitesse: {subject.speed}")
       elif event == 'skip':
         print(f"{subject.name} décide de passer son tour.")
+      elif event == 'mana_regen':
+        print(f"{subject.name} régénère du mana et a maintenant {subject.mana} mana disponibles.")
 
 class Observable:
     def __init__(self):
